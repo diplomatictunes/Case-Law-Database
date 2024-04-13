@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Details</title>
+</head>
+<body>
+    <h1>Case Details</h1>
+    <ul>
+        <li><strong>Case Name:</strong> <%= caseDetails.case_name %></li>
+        <li><strong>Case Citation:</strong> <%= caseDetails.case_citation %></li>
+        <li><strong>Case Medium Neutral:</strong> <%= caseDetails.medium_neutral %></li>
+        <li><strong>Case Year:</strong> <%= caseDetails.case_year %></li>
+        <li><strong>Case Court:</strong> <%= caseDetails.case_court %></li>
+        <li><strong>Case Topic:</strong> <%= caseDetails.case_topic %></li>
+        <li><strong>Case Ratio:</strong> <%= caseDetails.case_ratio %></li>
+        <li><strong>Case Notes:</strong> <%= caseDetails.case_notes %></li>
+    </ul>
+
+    <% if (caseDetails.medium_neutral) { %>
+        <h2>Medium Neutral</h2>
+        <iframe src="<%= getAustLiiUrl(caseDetails.medium_neutral) %>" width="100%" height="600px"></iframe>
+    <% } %>
+
+    <a href="/">Back to Search</a>
+</body>
+</html>

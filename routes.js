@@ -1,0 +1,225 @@
+const express = require('express');
+const router = express.Router();
+const db = require('./database');
+
+// Define a function to generate AustLii URLs based on medium neutral
+function getAustLiiUrl(mediumNeutral) {
+    // Your logic to generate the URL based on the medium neutral value
+    // For example:
+    if (mediumNeutral) {
+        // Assuming mediumNeutral is in the format "[Year] Court Abbreviation Case Number"
+        const parts = mediumNeutral.split(' ');
+        const year = parts[0].slice(1, -1); // Extract year from [Year]
+        const courtAbbreviation = parts[1]; // Extract court abbreviation
+        const caseNumber = parts[2]; // Extract case number
+        return `https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/${courtAbbreviation}/${year}/${caseNumber}.html`;
+    }
+    return ''; // Return empty string if no medium neutral value
+}
+
+// Route for displaying the form and search box
+router.get('/', (req, res) => {
+    res.render('submit-case', { title: 'Submit-Case' });
+});
+
+// Route for submitting a case form
+router.post('/submit_case', function(req, res, next) {
+    // Your code for submitting a case form
+    // ...
+});
+
+// Route for searching cases
+router.get('/search', (req, res) => {
+    // Your code for searching cases
+    // ...
+});
+
+// Route for reviewing a specific case
+router.get('/review/:id', (req, res) => {
+    // Get case ID from request parameters
+    const caseId = req.params.id;
+
+    // Fetch case details from the database
+    const caseSql = `SELECT * FROM cases WHERE case_id = ?`;
+    db.query(caseSql, [caseId], (err, result) => {
+        if (err) {
+            console.error('Error fetching case details:', err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            // Render case details page with case details and generated AustLii URL
+            res.render('case-details', {
+                caseDetails: result[0],
+                getAustLiiUrl: getAustLiiUrl // Pass the function to the template
+            });
+        }
+    });
+});
+
+// Export the router
+module.exports = router;
+
+// Route for displaying the form and search box
+router.get('/', (req, res) => {
+    res.render('submit-case', { title: 'Submit-Case' });
+});
+
+// routes.js
+
+// Route for submitting a case form
+router.post('/submit_case', function(req, res, next) {
+  // Extract form data from the request
+  var caseName = req.body.caseName;
+  var caseCitation = req.body.caseCitation;
+  var caseMediumNeutral = req.body.caseMediumNeutral;
+  var caseYear = req.body.caseYear;
+  var caseCourt = req.body.caseCourt;
+  var caseJudges = req.body.caseJudges; // Assuming this is a comma-separated list of judge names
+  var caseTopic = req.body.caseTopic;
+  var caseRatio = req.body.caseRatio;
+  var caseNotes = req.body.caseNotes;
+
+  // Insert the case details into the 'cases' table
+  var caseSql = `INSERT INTO cases (case_name, case_citation, medium_neutral, case_year, case_court, case_topic, case_ratio, case_notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+  db.query(caseSql, [caseName, caseCitation, caseMediumNeutral, caseYear, caseCourt, caseTopic, caseRatio, caseNotes], function(err, result) {
+    if (err) {
+      console.error('Error inserting case:', err);
+      // Handle the error (redirect, render error page, etc.)
+      return res.status(500).send('Internal Server Error');
+    }
+
+    // Get the ID of the last inserted case
+    var caseId = result.insertId;
+
+    // Process case judges
+    var judgeNames = caseJudges.split(',').map(judge => judge.trim()); // Splitting comma-separated names into an array
+    var insertValues = [];
+    judgeNames.forEach(judgeName => {
+      // Check if judge already exists in the database
+      var judgeQuery = `SELECT * FROM judges WHERE judge_name = ?`;
+      db.query(judgeQuery, [judgeName], function(err, judgeResult) {
+        if (err) {
+          console.error('Error querying judge:', err);
+          // Handle the error (redirect, render error page, etc.)
+          return res.status(500).send('Internal Server Error');
+        }
+
+        if (judgeResult.length > 0) {
+          // Judge already exists, get judge ID
+          var judgeId = judgeResult[0].judge_id;
+          insertValues.push([caseId, judgeId]);
+          if (insertValues.length === judgeNames.length) {
+            // Insert associations into 'case_judges' table
+            var caseJudgeSql = `INSERT INTO case_judges (case_id, judge_id) VALUES ?`;
+            db.query(caseJudgeSql, [insertValues], function(err, caseJudgeResult) {
+              if (err) {
+                console.error('Error inserting case-judge association:', err);
+                // Handle the error (redirect, render error page, etc.)
+                return res.status(500).send('Internal Server Error');
+              }
+              console.log('Case-Judges associations inserted into database');
+              // Redirect to success page after successful insertion
+              res.render('submit-case', { title: 'Submit-Case', successMessage: 'Case submitted successfully!' });
+            });
+          }
+        } else {
+          // Judge doesn't exist, insert new judge
+          var insertJudgeSql = `INSERT INTO judges (judge_name) VALUES (?)`;
+          db.query(insertJudgeSql, [judgeName], function(err, insertJudgeResult) {
+            if (err) {
+              console.error('Error inserting judge:', err);
+              // Handle the error (redirect, render error page, etc.)
+              return res.status(500).send('Internal Server Error');
+            }
+            var newJudgeId = insertJudgeResult.insertId;
+            insertValues.push([caseId, newJudgeId]);
+            if (insertValues.length === judgeNames.length) {
+              // Insert associations into 'case_judges' table
+              var caseJudgeSql = `INSERT INTO case_judges (case_id, judge_id) VALUES ?`;
+              db.query(caseJudgeSql, [insertValues], function(err, caseJudgeResult) {
+                if (err) {
+                  console.error('Error inserting case-judge association:', err);
+                  // Handle the error (redirect, render error page, etc.)
+                  return res.status(500).send('Internal Server Error');
+                }
+                console.log('Case-Judges associations inserted into database');
+                // Redirect to success page after successful insertion
+                res.redirect('/success.html');
+              });
+            }
+          });
+        }
+      });
+    });
+  });
+});
+
+router.get('/search', (req, res) => {
+    // Get search query from request parameters
+    const query = req.query.query;
+
+    // Perform search in the database
+    const searchSql = `
+        SELECT *
+        FROM cases
+        WHERE
+            case_name LIKE ? OR
+            case_citation LIKE ? OR
+            medium_neutral LIKE ? OR
+            case_year LIKE ? OR
+            case_court LIKE ? OR
+            case_topic LIKE ? OR
+            case_ratio LIKE ? OR
+            case_notes LIKE ?`;
+    const searchQuery = `%${query}%`; // Corrected string interpolation syntax
+    db.query(
+        searchSql,
+        [searchQuery, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery],
+        (err, results) => {
+            if (err) {
+                console.error('Error searching cases:', err);
+                res.status(500).send('Internal Server Error');
+            } else {
+                // Render search results page
+                res.render('search-results', { results });
+            }
+        }
+    );
+});
+router.get('/review/:id', (req, res) => {
+    // Get case ID from request parameters
+    const caseId = req.params.id;
+
+    // Fetch case details from the database
+    const caseSql = `SELECT * FROM cases WHERE case_id = ?`;
+    db.query(caseSql, [caseId], (err, result) => {
+        if (err) {
+            console.error('Error fetching case details:', err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            // Render case details page with case details and generated AustLii URL
+            res.render('case-details', {
+                caseDetails: result[0],
+                getAustLiiUrl: getAustLiiUrl // Pass the function to the template
+            });
+        }
+    });
+});
+
+// Route for filtered pages based on case topic
+router.get('/filter/case-topic/:topic', (req, res) => {
+    const topic = req.params.topic;
+
+    // Query the database for cases with the specified topic
+    const topicSql = `SELECT * FROM cases WHERE case_topic = ?`;
+    db.query(topicSql, [topic], (err, filteredResults) => {
+        if (err) {
+            console.error('Error filtering cases by topic:', err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            // Render a template to display filtered results
+            res.render('filtered-results', { filteredResults, topic });
+        }
+    });
+});
+
+module.exports = router;

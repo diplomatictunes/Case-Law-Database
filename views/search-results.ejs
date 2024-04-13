@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <!-- Search Form -->
+    <form action="/search" method="GET">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    
+    <!-- Display Search Results -->
+    <% if (results.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Case Name</th>
+                    <th>Case Citation</th>
+                    <th>Case Medium Neutral</th>
+		    <th>Case Year</th>
+                    <th>Case Court</th>
+                    <th>Case Topic</th>
+                    <th>Case Ratio</th>
+                    <th>Case Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% results.forEach(result => { %>
+                    <tr>
+                        <td><a href="/review/<%= result.case_id %>"><%= result.case_name %></a></td>
+                        <td><%= result.case_citation %></td>
+			<td><%= result.medium_neutral %></td>
+                        <td><%= result.case_year %></td>
+                        <td><a href="/filter/case_topic/<%= result.case_topic %>"><%= result.case_topic %></a>/td>
+                        <td><%= result.case_court %></td>
+                        <td><%= result.case_topic %></td>
+                        <td><%= result.case_ratio %></td>
+                        <td><%= result.case_notes %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No results found.</p>
+    <% } %>
+</body>
+</html>

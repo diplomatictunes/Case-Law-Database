@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>Submit Case</h1>
+    <form action="/submit_case" method="post">
+        <label for="caseName">Case Name:</label>
+        <input type="text" id="caseName" name="caseName" required><br>
+        
+        <label for="caseCitation">Case Citation:</label>
+        <input type="text" id="caseCitation" name="caseCitation" required><br>
+
+        <label for="caseMediumNeutral">Case Medium Neutral:</label>
+        <input type="text" id="caseMediumNeutral" name="caseMediumNeutral" required><br>
+
+        
+        <label for="caseYear">Case Year:</label>
+        <input type="text" id="caseYear" name="caseYear" required><br>
+        
+        <label for="caseCourt">Case Court:</label>
+        <input type="text" id="caseCourt" name="caseCourt" required><br>
+        
+        <label for="caseJudges">Case Judges (comma-separated):</label>
+        <input type="text" id="caseJudges" name="caseJudges" required><br>
+        
+        <label for="caseTopic">Case Topic:</label>
+        <input type="text" id="caseTopic" name="caseTopic" required><br>
+        
+        <label for="caseRatio">Case Ratio:</label>
+        <input type="text" id="caseRatio" name="caseRatio" required><br>
+        
+        <label for="caseNotes">Case Notes:</label><br>
+        <textarea id="caseNotes" name="caseNotes" rows="4" cols="50" required></textarea><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+<!-- Your existing submit-case view HTML -->
+
+    <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+  	<div class="alert alert-success" role="alert">
+        <%= successMessage %>
+      </div>
+    <% } %>
+
+
+    <form action="/search" method="get">
+        <label for="searchQuery">Search:</label>
+        <input type="text" id="searchQuery" name="query">
+        <button type="submit">Search</button>
+    </form>
+
+</body>
+</html>
+
+</body>
+</html>
