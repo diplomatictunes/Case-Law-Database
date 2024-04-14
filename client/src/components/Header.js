@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   return (
-    <header className="bg-myblue py-0">
-      <nav className="flex justify-center">
-        <Link to="/submit-case" className="mr-4">
-          <button className="bg-mygree hover:bg-mycream text-mycream font-bold py-2 px-4 rounded">
+    <header>
+      <nav>
+        <Link to="/submit-case">
+          <button>
             Submit Case
           </button>
         </Link>
         <Link to="/search-results">
-          <button className="bg-mygree hover:bg-mycream text-mycream font-bold py-2 px-4 rounded">
+          <button >
             Search Results
           </button>
         </Link>
