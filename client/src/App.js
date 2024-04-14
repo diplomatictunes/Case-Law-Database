@@ -10,7 +10,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<HomePage />} />  // Route for the homepage
+                <Route path="/home" element={<HomePage />} />  // Route for the homepage
                 <Route path="/case-details" element={<CaseDetails />} />
                 <Route path="/error" element={<ErrorComponent />} />
                 <Route path="/search-results" element={<SearchResults />} />

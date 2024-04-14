@@ -16,7 +16,8 @@ function getAustLiiUrl(mediumNeutral) {
 }
 
 // API endpoint for submitting a case form
-router.post('/api/submit_case', function(req, res) {
+router.post('/submit_case', function(req, res) {
+    console.log("Received request to /submit_case");
     const { caseName, caseCitation, caseMediumNeutral, caseYear, caseCourt, caseJudges, caseTopic, caseRatio, caseNotes } = req.body;
 
     // Insert the case details into the 'cases' table
@@ -70,7 +71,7 @@ router.post('/api/submit_case', function(req, res) {
 });
 
 // API endpoint for searching cases
-router.get('/api/search', (req, res) => {
+router.get('/search', (req, res) => {
     const query = req.query.query;
     const searchSql = `
         SELECT *
@@ -87,7 +88,7 @@ router.get('/api/search', (req, res) => {
 });
 
 // API endpoint to retrieve case details
-router.get('/api/review/:id', (req, res) => {
+router.get('/review/:id', (req, res) => {
     const caseId = req.params.id;
     const caseSql = `SELECT * FROM cases WHERE case_id = ?`;
 
@@ -122,5 +123,6 @@ router.get('/api/review/:id', (req, res) => {
         });
     });
 });
+
 module.exports = router;
 

@@ -1,21 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function SearchResults({ results }) {
+function SearchResults() {
+    const [results, setResults] = useState([]);
+    const [query, setQuery] = useState('');
+
+    const handleSearch = async () => {
+        try {
+            const response = await fetch(`/api/search?query=${encodeURIComponent(query)}`, {
+            method: 'GET',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
+        const data = await response.json();
+        setResults(data);
+    } catch (error) {
+        console.error('Search failed:', error);
+    }
+};
+
+
+
     return (
         <div>
             <h1>Search Results</h1>
+            <input 
+                type="text" 
+                value={query} 
+                onChange={(e) => setQuery(e.target.value)} 
+                placeholder="Enter search terms..."
+            />
+            <button onClick={handleSearch}>Search</button>
             {results.length > 0 ? (
                 <table>
                     <thead>
                         <tr>
-                            <th>Case Name</th>
-                            <th>Case Citation</th>
-                            <th>Case Medium Neutral</th>
-                            <th>Case Year</th>
-                            <th>Case Court</th>
-                            <th>Case Topic</th>
-                            <th>Case Ratio</th>
-                            <th>Case Notes</th>
+                            <th>Name</th>
+                            <th>Citation</th>
+                            <th>Medium Neutral</th>
+                            <th>Year</th>
+                            <th>Court</th>
+                            <th>Judges</th>
+                            <th>Topic</th>
+                            <th>Ratio</th>
+                            <th>Notes</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,6 +54,7 @@ function SearchResults({ results }) {
                                 <td>{result.medium_neutral}</td>
                                 <td>{result.case_year}</td>
                                 <td>{result.case_court}</td>
+                                <td>{result.case_judges}</td>
                                 <td>{result.case_topic}</td>
                                 <td>{result.case_ratio}</td>
                                 <td>{result.case_notes}</td>
@@ -33,9 +62,7 @@ function SearchResults({ results }) {
                         ))}
                     </tbody>
                 </table>
-            ) : (
-                <p>No results found.</p>
-            )}
+            ) : <p>No results found.</p>}
         </div>
     );
 }

@@ -1,14 +1,16 @@
 /* Define the Crimson Pro font family */
 @font-face {
   font-family: 'Crimson Pro';
-  src: url('/public/webfonts/crimson-roman-webfont.woff') format('woff'); /* Older Browsers */
+  src: url('/webfonts/crimson-roman-webfont.woff2') format('woff2'), /* Modern Browsers */
+       url('/webfonts/crimson-roman-webfont.woff') format('woff'); /* Older Browsers */
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Crimson Pro';
-  src: url('/public/webfonts/crimson-bold-webfont.woff') format('woff'); /* Older Browsers */
+  src: url('/webfonts/crimson-bold-webfont.woff2') format('woff2'), /* Modern Browsers */
+       url('/webfonts/crimson-bold-webfont.woff') format('woff'); /* Older Browsers */
   font-weight: bold;
   font-style: normal;
 }
