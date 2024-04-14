@@ -6,6 +6,7 @@ function HomePage() {
             <div>
                 <h1>DataCase</h1>
                 <div>
+                <div>
                     <Link to="/search-results">
                         <button>
                             Search Cases
