@@ -5,7 +5,7 @@ function HomePage() {
         <div>
             <div>
                 <h1>DataCase</h1>
-                <div className="flex justify-between">
+                <div>
                     <Link to="/search-results">
                         <button>
                             Search Cases
