@@ -22,42 +22,6 @@ router.get('/', (req, res) => {
     res.render('submit-case', { title: 'Submit-Case' });
 });
 
-// Route for submitting a case form
-router.post('/submit_case', function(req, res, next) {
-    // Your code for submitting a case form
-    // ...
-});
-
-// Route for searching cases
-router.get('/search', (req, res) => {
-    // Your code for searching cases
-    // ...
-});
-
-// Route for reviewing a specific case
-router.get('/review/:id', (req, res) => {
-    // Get case ID from request parameters
-    const caseId = req.params.id;
-
-    // Fetch case details from the database
-    const caseSql = `SELECT * FROM cases WHERE case_id = ?`;
-    db.query(caseSql, [caseId], (err, result) => {
-        if (err) {
-            console.error('Error fetching case details:', err);
-            res.status(500).send('Internal Server Error');
-        } else {
-            // Render case details page with case details and generated AustLii URL
-            res.render('case-details', {
-                caseDetails: result[0],
-                getAustLiiUrl: getAustLiiUrl // Pass the function to the template
-            });
-        }
-    });
-});
-
-// Export the router
-module.exports = router;
-
 // Route for displaying the form and search box
 router.get('/', (req, res) => {
     res.render('submit-case', { title: 'Submit-Case' });
@@ -205,21 +169,5 @@ router.get('/review/:id', (req, res) => {
     });
 });
 
-// Route for filtered pages based on case topic
-router.get('/filter/case-topic/:topic', (req, res) => {
-    const topic = req.params.topic;
-
-    // Query the database for cases with the specified topic
-    const topicSql = `SELECT * FROM cases WHERE case_topic = ?`;
-    db.query(topicSql, [topic], (err, filteredResults) => {
-        if (err) {
-            console.error('Error filtering cases by topic:', err);
-            res.status(500).send('Internal Server Error');
-        } else {
-            // Render a template to display filtered results
-            res.render('filtered-results', { filteredResults, topic });
-        }
-    });
-});
-
 module.exports = router;
+

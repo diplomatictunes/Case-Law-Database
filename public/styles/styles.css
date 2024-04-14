@@ -1,0 +1,100 @@
+/* Define the Crimson Pro font family */
+@font-face {
+  font-family: 'Crimson Pro';
+  src: url('/webfonts/crimson-roman-webfont.woff2') format('woff2'), /* Modern Browsers */
+       url('/webfonts/crimson-roman-webfont.woff') format('woff'); /* Older Browsers */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Crimson Pro';
+  src: url('/webfonts/crimson-bold-webfont.woff2') format('woff2'), /* Modern Browsers */
+       url('/webfonts/crimson-bold-webfont.woff') format('woff'); /* Older Browsers */
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Body Styles */
+body {
+  font-family: 'Crimson Pro', serif;
+  background-color: rgb(231, 229, 223);
+  color: rgb(29, 38, 59);
+}
+
+/* Heading Styles */
+h1, h2, h3 {
+  color: rgb(142, 59, 70);
+}
+
+/* Link Styles */
+a {
+  color: rgb(18, 148, 144);
+}
+/* Basic styling for page titles */
+
+/* Generic form styling for consistency */
+form {
+  background-color: #8E3B46; /* Light grey background for all forms */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Styling for labels within forms */
+label {
+  color: #e8e5df; /* Deep teal for labels */
+  display: block; /* Ensures labels appear on a new line */
+  margin-bottom: 8px;
+}
+
+/* Styling for text inputs and text areas */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #e8e5df; /* Light grey for text input fields */
+}
+
+/* Styling for buttons across all forms */
+button {
+  width: 100%;
+  background-color: #12494F; /* Deep teal for buttons */
+  color: e8e5df;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #106875; /* Slightly lighter teal for hover */
+}
+
+/* Styling for div containers, especially for messages */
+div {
+  border-radius: 5px;
+  background-color: #8E3B46; /* Dark maroon for div containers */
+  padding: 20px;
+  color: e8e5df; /* White text for visibility */
+}
+
+/* Alert class styling */
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+

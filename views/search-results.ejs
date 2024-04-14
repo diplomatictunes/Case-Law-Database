@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
     <style>
         table {
             width: 100%;
@@ -49,7 +50,6 @@
                         <td><%= result.case_citation %></td>
 			<td><%= result.medium_neutral %></td>
                         <td><%= result.case_year %></td>
-                        <td><a href="/filter/case_topic/<%= result.case_topic %>"><%= result.case_topic %></a>/td>
                         <td><%= result.case_court %></td>
                         <td><%= result.case_topic %></td>
                         <td><%= result.case_ratio %></td>
