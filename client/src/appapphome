@@ -1,0 +1,126 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CaseDetails from './components/CaseDetails';
+import ErrorComponent from './components/ErrorComponent';
+import SearchResults from './components/SearchResults';
+import SubmitCaseForm from './components/SubmitCaseForm';
+import HomePage from './components/HomePage';
+import Header from './components/Header';
+import './App.css';
+
+function App() {
+    return (
+        <Router>
+          <div>
+            <Header /> {/* Now correctly rendering the Header component */}
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/case-details" element={<CaseDetails />} />
+                <Route path="/error" element={<ErrorComponent />} />
+                <Route path="/search-results" element={<SearchResults />} />
+                <Route path="/submit-case" element={<SubmitCaseForm />} />
+            </Routes>
+          </div>
+        </Router>
+    );
+}
+
+export default App;
+/* Global Styles */
+:root {
+  /* Color palette */
+  --background-color: #F5F5F6;   /* Light Gray */
+  --text-color: #333333;         /* Dark Gray */
+  --button-bg-color: #80CBC4;    /* Teal Green */
+  --button-text-color: #FFFFFF;  /* White */
+  --link-color: #8B1E3F;         /* Claret Red */
+  --link-hover-color: #9FA8DA;   /* Lavender Blue */
+  
+  /* Typography */
+  --font-family: 'Crimson Pro', serif;
+  --font-size: 16px;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none; /* Removes underline from links */
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline; /* Adds underline on hover */
+}
+
+button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: var(--link-hover-color);
+}
+
+home-page {
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  margin: 0;
+  padding: 0;
+  background-colour: var(--button-bg-color)
+};
+
+box {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(128,203,196,0.83); 
+  box-shadow: 0px 0px 8px 0px rgba(128,203,196,0.83);
+};
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+function HomePage() {
+    return (
+        <div style={{ background: '#80CBC4', height: '100vh', padding: '20px' }}>
+            <section style={{
+                height: '150px',
+                width: '150px',
+                background: '#ef9a9a',
+                borderRadius: '20px',
+                boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.2)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '10px'
+            }}>
+                <h1>DataCase</h1>
+                <nav>
+                    <Link to="/search-results">
+                        <button style={{ margin: '10px' }}>Search Cases</button>
+                    </Link>
+                    <Link to="/submit-case">
+                        <button style={{ margin: '10px' }}>Submit New Case</button>
+                    </Link>
+                </nav>
+            </section>
+        </div>
+    );
+}
+
+export default HomePage;

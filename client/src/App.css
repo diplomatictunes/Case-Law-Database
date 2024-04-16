@@ -1,38 +1,86 @@
-.App {
-  text-align: center;
+/* Global Styles */
+:root {
+  /* Color palette */
+  --background-color: #c2c2c7;   /* Light Gray */
+  --text-color: #333333;         /* Dark Gray */
+  --button-bg-color: #8B1E3F;    /* Teal Green */
+  --button-text-color: #FFFFFF;  /* White */
+  --link-color: #80CBC4;       /* Claret Red */
+  --link-hover-color: #9FA8DA;   /* Lavender Blue */
+  
+  /* Typography */
+  --font-family: 'Crimson Pro', serif;
+  --font-size: 16px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a {
+  color: var(--link-color);
+  text-decoration: none; /* Removes underline from links */
+  transition: color 0.3s ease-in-out;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline; /* Adds underline on hover */
 }
 
-.App-link {
-  color: #61dafb;
+button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  font-family: var(--font-family);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover {
+  background-color: var(--link-hover-color);
+}
+
+box {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(128,203,196,0.83); 
+  box-shadow: 0px 0px 8px 0px rgba(128,203,196,0.83);
+};
+
+.search-icon {
+  position: fixed; /* Keeps the button in the same place regardless of scrolling */
+  right: 20px; /* Distance from the right edge of the viewport */
+  top: 20px; /* Distance from the top edge of the viewport */
+  z-index: 1000; /* Ensures the button stays above other content */
+}
+
+.search-icon button {
+  background-color: #8B1E3F; /* Button background color */
+  border: none; /* Removes the border */
+  border-radius: 50%; /* Makes the button round */
+  width: 40px; /* Width of the button */
+  height: 40px; /* Height of the button */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Adds shadow for 3D effect */
+  display: flex; /* Centers the image inside the button */
+  justify-content: center; /* Center align horizontally */
+  align-items: center; /* Center align vertically */
+}
+
+.search-icon button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Changes shadow on hover for a 'lifting' effect */
+}
+
+.search-icon img {
+  width: 20px; /* Width of the icon inside the button */
+  height: 20px; /* Height of the icon */
 }
