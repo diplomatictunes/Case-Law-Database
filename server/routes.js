@@ -126,3 +126,6 @@ router.get('/review/:id', (req, res) => {
 
 module.exports = router;
 
+const logger = require('morgan');
+app.use(logger('dev')); // Consider 'combined' for more detailed logs in production
+

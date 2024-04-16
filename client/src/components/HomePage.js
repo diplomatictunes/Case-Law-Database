@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 
 function HomePage() {
     return (
-        <!-- Search Button -->
-        <><div class="search-icon">
+            <div class="search-icon">
                 <button>
                     <img src="search-icon.png" alt="Search"> < />!-- Replace 'search-icon.png' with your icon file -->
                     </></button>
