@@ -125,7 +125,11 @@ router.get('/review/:id', (req, res) => {
 });
 
 module.exports = router;
-
+module.exports = function(app) {
+    app.use('/some-route', someRouter);
+    // Additional routes setup
+    app.use(logger('dev')); // Now `app` is defined
+};
 const logger = require('morgan');
 app.use(logger('dev')); // Consider 'combined' for more detailed logs in production
 

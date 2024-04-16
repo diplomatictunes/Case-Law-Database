@@ -14,14 +14,68 @@ function SubmitCaseForm() {
         caseNotes: ''
     });
 
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        let errors = {};
+        let isValid = true;
+
+        // Example validation for case name
+        if (!formData.caseName.trim()) {
+            isValid = false;
+            errors.caseName = 'Case name is required.';
+        }
+
+        // Add more validations as necessary
+        if (!formData.caseCitation.trim()) {
+            isValid = false;
+            errors.caseCitation = 'Case citation is required.';
+        }
+
+        if (!formData.caseYear.trim() || isNaN(Number(formData.caseYear))) {
+            isValid = false;
+            errors.caseYear = 'Valid year is required.';
+        }
+
+        // Ensure judges are provided and formatted correctly
+        if (!formData.caseJudges.trim() || !formData.caseJudges.includes(',')) {
+            isValid = false;
+            errors.caseJudges = 'List of judges must be comma-separated.';
+        }
+
+        setErrors(errors);
+        return isValid;
+    };
+
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
+        // Optionally reset errors
+        if (errors[event.target.name]) {
+            setErrors({ ...errors, [event.target.name]: null });
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            alert('Please correct the errors in the form.');
+            return;
+        }
+
         try {
-            const response = await axios.post('/api/submit_case', formData);
+            const response = await axios.post('/api/submit_case', {
+                caseData: {
+                    name: formData.caseName,
+                    citation: formData.caseCitation,
+                    mediumNeutral: formData.caseMediumNeutral,
+                    year: parseInt(formData.caseYear, 10),
+                    court: formData.caseCourt,
+                    topic: formData.caseTopic,
+                    ratio: formData.caseRatio,
+                    notes: formData.caseNotes
+                },
+                judgeNames: formData.caseJudges.split(',').map(judge => judge.trim())
+            });
             console.log('Case submitted:', response.data);
             alert('Case submitted successfully!');
         } catch (error) {
@@ -29,6 +83,7 @@ function SubmitCaseForm() {
             alert('Failed to submit case.');
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit}>
